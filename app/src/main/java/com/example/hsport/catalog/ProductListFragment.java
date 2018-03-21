@@ -3,7 +3,7 @@ package com.example.hsport.catalog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +13,7 @@ import android.widget.ListView;
 import java.util.List;
 
 
-public class ProductListFragment extends Fragment {
+public class ProductListFragment extends ListFragment {
 
     private ListFragmentListener mListener;
     private List<Product> products = DataProvider.productList;
@@ -28,19 +28,29 @@ public class ProductListFragment extends Fragment {
 
         ProductListAdapter adapter = new ProductListAdapter(
                 getContext(), R.layout.list_item, products);
-        ListView lv = (ListView) view.findViewById(R.id.listView);
-        lv.setAdapter(adapter);
 
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String uriString = "http://hplussport.com/catalog/productid/" + position;
-                Uri uri = Uri.parse(uriString);
-                mListener.onListItemClick(uri);
-            }
-        });
+        setListAdapter (adapter);
+//        ListView lv = (ListView) view.findViewById(R.id.listView);
+//        lv.setAdapter(adapter);
+//
+//        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                String uriString = "http://hplussport.com/catalog/productid/" + position;
+//                Uri uri = Uri.parse(uriString);
+//                mListener.onListItemClick(uri);
+//            }
+//        });
 
         return view;
+    }
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick (l, v, position, id);
+        String uriString = "http://hplussport.com/catalog/productid/" + position;
+        Uri uri = Uri.parse(uriString);
+        mListener.onListItemClick(uri);
     }
 
     @Override
